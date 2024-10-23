@@ -4,9 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const eventos = await Evento.find()
-    //.populate("sucursales")
-    .sort({fecha: 'desc'});
+    const eventos = await Evento.find().sort({ fecha: "desc" });
 
     res.send(eventos);
   } catch (error) {
@@ -14,11 +12,23 @@ router.get("/", async (req, res) => {
     res.status(404).send("No se encontraron eventos");
   }
 });
+
+// Funcion get para eventos programatos
+router.get("/programado", async (req, res) => {
+  try {
+    const evento = await Evento.find({ estado: "Programado" });
+
+    res.send(evento);
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("No se encontro ningun documento");
+  }
+});
+
 // Funcion get por _id unico
 router.get("/:_id", async (req, res) => {
   try {
-    const evento = await Evento.findById(req.params._id)
-   // .populate("sucursales")
+    const evento = await Evento.findById(req.params._id);
 
     res.send(evento);
   } catch (error) {
@@ -33,12 +43,27 @@ router.post("/", async (req, res) => {
     const evento = new Evento(req.body);
     const result = await evento.save();
 
-    const eventosave = await Evento.findById(result._id)
-    //.populate("sucursales");
+    const eventosave = await Evento.findById(result._id);
     res.status(201).send(eventosave);
   } catch (error) {
     console.log(error);
     res.status(404).send("No se pudo registrar el documento");
+  }
+});
+
+// Funcion PUT actualizar por nombre
+router.put("/nombre", async (req, res) => {
+  try {
+    const evento = await Evento.findOneAndUpdate(
+      { nombre: req.body.nombre },
+      req.body,
+      { new: true }
+    );
+
+    res.status(202).send(evento);
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("No se encontro ningun documento");
   }
 });
 
@@ -47,9 +72,7 @@ router.put("/:_id", async (req, res) => {
   try {
     const evento = await Evento.findByIdAndUpdate(req.params._id, req.body, {
       new: true,
-    })
-    //.populate("sucursales");
-
+    });
 
     res.status(202).send(evento);
   } catch (error) {

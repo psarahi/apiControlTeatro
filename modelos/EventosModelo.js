@@ -9,17 +9,10 @@ const EventoShema = new mongoose.Schema({
   },
   fecha: {
     type: Date,
-    required: true,
   },
   encargado: { type: String },
   estado: { type: String },
-  sillas: [
-    {
-      silla: { type: String },
-      estado: { type: String },
-      vendidoA: { type: String }
-    },
-  ],
+  sillas: [],
 });
 
 const Evento = mongoose.model("eventos", EventoShema);
