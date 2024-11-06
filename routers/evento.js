@@ -4,7 +4,8 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const eventos = await Evento.find().sort({ fecha: "desc" });
+    const eventos = await Evento.find().sort({ fecha: "desc" })
+    .populate('teatros');
 
     res.send(eventos);
   } catch (error) {
@@ -14,9 +15,23 @@ router.get("/", async (req, res) => {
 });
 
 // Funcion get para eventos programatos
+router.get("/teatro/:teatro", async (req, res) => {
+  try {
+    const evento = await Evento.find({ teatros: req.params.teatro })
+    .populate('teatros');
+
+    res.send(evento);
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("No se encontro ningun documento");
+  }
+});
+
+// Funcion get para eventos programatos
 router.get("/programado", async (req, res) => {
   try {
-    const evento = await Evento.find({ estado: "Programado" });
+    const evento = await Evento.find({ estado: "Programado" })
+    .populate('teatros');
 
     res.send(evento);
   } catch (error) {
@@ -28,7 +43,8 @@ router.get("/programado", async (req, res) => {
 // Funcion get por _id unico
 router.get("/:_id", async (req, res) => {
   try {
-    const evento = await Evento.findById(req.params._id);
+    const evento = await Evento.findById(req.params._id)
+    .populate('teatros');
 
     res.send(evento);
   } catch (error) {
@@ -43,7 +59,8 @@ router.post("/", async (req, res) => {
     const evento = new Evento(req.body);
     const result = await evento.save();
 
-    const eventosave = await Evento.findById(result._id);
+    const eventosave = await Evento.findById(result._id)
+    .populate('teatros');
     res.status(201).send(eventosave);
   } catch (error) {
     console.log(error);

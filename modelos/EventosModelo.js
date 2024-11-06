@@ -10,6 +10,11 @@ const EventoShema = new mongoose.Schema({
   fecha: {
     type: Date,
   },
+  teatros: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "teatros",
+    
+  },
   encargado: { type: String },
   estado: { type: String },
   sillas: [],
