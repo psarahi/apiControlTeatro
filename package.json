@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --watch --env-file .env index.js",
+    "test": "",
     "start": "node --watch --env-file .env index.js"
   },
   "author": "Lesly Sarahi Pena Guerra",
