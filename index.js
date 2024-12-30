@@ -30,14 +30,14 @@ app.use("/api/evento", evento);
 app.use("/api/silla", silla);
 app.use("/api/teatro", teatro);
 
-const port = process.env.PORT || 3003;
+const port = process.env.API_PORT || 3003;
 server.listen(port, () => console.log("Escuchando Puerto: " + port));
 
 mongoose
   .connect(
     // `mongodb+srv://lesly:${process.env.MONGOPASS}@cluster0.g3yej.mongodb.net/controlTeatro?retryWrites=true&w=majority&appName=Cluster0`
     // `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_DB_NAME}:27017/${process.env.MONGO_DB_NAME}?authSource=admin`
-    `${process.env.STRING_CONNECT}://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.CLUSTER_NAME}:${process.env.PORT}/${process.env.MONGO_DB_NAME}?authSource=admin`
+    `${process.env.STRING_CONNECT}://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.CLUSTER_NAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB_NAME}?authSource=admin`
   )
   .then(() => console.log("Conectado a MongoDb"))
   .catch((error) => console.log(error));
